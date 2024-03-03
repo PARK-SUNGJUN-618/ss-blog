@@ -3,6 +3,8 @@ import { Editor } from "@tiptap/react";
 import { FC } from "react";
 import { AiFillCaretDown } from "react-icons/ai";
 import { getFocusedEditor } from "../EditorUtils";
+import Button from "./Button";
+import { BsTypeBold } from "react-icons/bs";
 
 interface Props {
   editor: Editor | null;
@@ -50,6 +52,10 @@ const Toolbar: FC<Props> = ({ editor }): JSX.Element | null => {
   return (
     <div>
       <DropdownOptions options={options} head={<Head />} />
+
+      <Button>
+        <BsTypeBold />
+      </Button>
     </div>
   );
 };
