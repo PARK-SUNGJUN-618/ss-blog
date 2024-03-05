@@ -66,7 +66,7 @@ const Toolbar: FC<Props> = ({ editor }): JSX.Element | null => {
     <div className="flex items-center">
       <DropdownOptions options={options} head={<Head />} />
 
-      <div className="h-4 w-[1px] bg-secondary-dark dark:bg-secondary-light mx-8" />
+      <div className="h-4 w-[1px] min-w-[1px] bg-secondary-dark dark:bg-secondary-light mx-8" />
 
       <div className="flex items-center space-x-3">
         <Button onClick={() => getFocusedEditor(editor).toggleBold().run()}>
@@ -88,7 +88,7 @@ const Toolbar: FC<Props> = ({ editor }): JSX.Element | null => {
         </Button>
       </div>
 
-      <div className="h-4 w-[1px] bg-secondary-dark dark:bg-secondary-light mx-8" />
+      <div className="h-4 w-[1px] min-w-[1px] bg-secondary-dark dark:bg-secondary-light mx-8" />
 
       <div className="flex items-center space-x-3">
         <Button
@@ -124,7 +124,7 @@ const Toolbar: FC<Props> = ({ editor }): JSX.Element | null => {
         </Button>
       </div>
 
-      <div className="h-4 w-[1px] bg-secondary-dark dark:bg-secondary-light mx-8" />
+      <div className="h-4 w-[1px] min-w-[1px] bg-secondary-dark dark:bg-secondary-light mx-8" />
       <div className="flex items-center space-x-3">
         <Button>
           <BsYoutube />
