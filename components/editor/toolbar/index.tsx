@@ -69,21 +69,31 @@ const Toolbar: FC<Props> = ({ editor }): JSX.Element | null => {
       <div className="h-4 w-[1px] min-w-[1px] bg-secondary-dark dark:bg-secondary-light mx-8" />
 
       <div className="flex items-center space-x-3">
-        <Button onClick={() => getFocusedEditor(editor).toggleBold().run()}>
+        <Button
+          active={editor.isActive("bold")}
+          onClick={() => getFocusedEditor(editor).toggleBold().run()}
+        >
           <BsTypeBold />
         </Button>
 
-        <Button onClick={() => getFocusedEditor(editor).toggleItalic().run()}>
+        <Button
+          active={editor.isActive("italic")}
+          onClick={() => getFocusedEditor(editor).toggleItalic().run()}
+        >
           <BsTypeItalic />
         </Button>
 
         <Button
+          active={editor.isActive("underline")}
           onClick={() => getFocusedEditor(editor).toggleUnderline().run()}
         >
           <BsTypeUnderline />
         </Button>
 
-        <Button onClick={() => getFocusedEditor(editor).toggleStrike().run()}>
+        <Button
+          active={editor.isActive("strike")}
+          onClick={() => getFocusedEditor(editor).toggleStrike().run()}
+        >
           <BsTypeStrikethrough />
         </Button>
       </div>
@@ -92,16 +102,21 @@ const Toolbar: FC<Props> = ({ editor }): JSX.Element | null => {
 
       <div className="flex items-center space-x-3">
         <Button
+          active={editor.isActive("blockquote")}
           onClick={() => getFocusedEditor(editor).toggleBlockquote().run()}
         >
           <RiDoubleQuotesL />
         </Button>
 
-        <Button onClick={() => getFocusedEditor(editor).toggleCode().run()}>
+        <Button
+          active={editor.isActive("code")}
+          onClick={() => getFocusedEditor(editor).toggleCode().run()}
+        >
           <BsCode />
         </Button>
 
         <Button
+          active={editor.isActive("codeBlock")}
           onClick={() => getFocusedEditor(editor).toggleCodeBlock().run()}
         >
           <BsBraces />
@@ -112,12 +127,14 @@ const Toolbar: FC<Props> = ({ editor }): JSX.Element | null => {
         </Button>
 
         <Button
+          active={editor.isActive("orderedList")}
           onClick={() => getFocusedEditor(editor).toggleOrderedList().run()}
         >
           <BsListOl />
         </Button>
 
         <Button
+          active={editor.isActive("bulletList")}
           onClick={() => getFocusedEditor(editor).toggleBulletList().run()}
         >
           <BsListUl />
