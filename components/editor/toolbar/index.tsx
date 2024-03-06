@@ -19,6 +19,7 @@ import {
 } from "react-icons/bs";
 import { RiDoubleQuotesL } from "react-icons/ri";
 import InsertLink from "../Link/InsertLink";
+import { linkOption } from "../Link/LinkForm";
 
 interface Props {
   editor: Editor | null;
@@ -52,6 +53,10 @@ const Toolbar: FC<Props> = ({ editor }): JSX.Element | null => {
     if (editor.isActive("heading", { level: 3 })) return "Heading 3";
 
     return "Paragraph";
+  };
+
+  const handleLinkSubmit = (link: linkOption) => {
+    console.log(link);
   };
 
   const Head = () => {
@@ -123,7 +128,7 @@ const Toolbar: FC<Props> = ({ editor }): JSX.Element | null => {
           <BsBraces />
         </Button>
 
-        <InsertLink />
+        <InsertLink onSubmit={handleLinkSubmit} />
 
         <Button
           active={editor.isActive("orderedList")}
