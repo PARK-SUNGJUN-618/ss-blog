@@ -1,10 +1,12 @@
 import { FC, useEffect, useState } from "react";
 import { useEditor, EditorContent, getMarkRange, Range } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import Toolbar from "./toolbar";
 import Underline from "@tiptap/extension-underline";
 import Placeholder from "@tiptap/extension-placeholder";
 import Link from "@tiptap/extension-link";
+import Youtube from "@tiptap/extension-youtube";
+
+import Toolbar from "./toolbar";
 import EditLink from "./Link/EditLink";
 
 interface Props {}
@@ -26,6 +28,13 @@ const Editor: FC<Props> = (props): JSX.Element => {
       }),
       Placeholder.configure({
         placeholder: "Type something",
+      }),
+      Youtube.configure({
+        width: 840,
+        height: 472.5,
+        HTMLAttributes: {
+          class: "mx-auto rounded",
+        },
       }),
     ],
     editorProps: {
