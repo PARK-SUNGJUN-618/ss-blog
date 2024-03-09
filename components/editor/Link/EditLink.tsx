@@ -26,7 +26,15 @@ const EditLink: FC<Props> = ({ editor }): JSX.Element => {
     editor.commands.unsetLink();
   };
 
-  const handleSubmit = (link: linkOption) => {};
+  const handleSubmit = ({ url, openInNewTab }: linkOption) => {
+    editor
+      .chain()
+      .focus()
+      .unsetLink()
+      .setLink({ href: url, target: openInNewTab ? "_blank" : "" })
+      .run();
+    setShowEditForm(false);
+  };
 
   const getInitialState = useCallback(() => {
     const { href, target } = editor.getAttributes("link");
