@@ -1,4 +1,5 @@
 import { FC } from "react";
+import Image from "./Image";
 
 interface Props {}
 
@@ -83,7 +84,7 @@ const Gallery: FC<Props> = (props): JSX.Element => {
       {images.map(({ src }, index) => {
         return (
           <div key={index} className="basis-1/4">
-            <img src={src} alt="gallery" />
+            <Image src={src} />
           </div>
         );
       })}
