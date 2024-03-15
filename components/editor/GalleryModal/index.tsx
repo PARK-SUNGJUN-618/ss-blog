@@ -92,6 +92,7 @@ const GalleryModal: FC<Props> = ({ visible, onClose }): JSX.Element => {
             className="basis-[75%] max-h-[450px] overflow-y-auto
             custom-scroll-bar"
           >
+            {/* TODO Change onSelect */}
             <Gallery images={images} onSelect={() => {}} />
           </div>
 
