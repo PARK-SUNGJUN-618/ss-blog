@@ -1,6 +1,7 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import ModalContainer, { ModalProps } from "@/components/common/ModalContainer";
 import Gallery from "./Gallery";
+import Image from "next/image";
 
 interface Props extends ModalProps {}
 
@@ -80,6 +81,7 @@ const images = [
 ];
 
 const GalleryModal: FC<Props> = ({ visible, onClose }): JSX.Element => {
+  const [selectedImage, setSelectedImage] = useState("");
   return (
     <ModalContainer visible={visible} onClose={onClose}>
       <div
@@ -93,11 +95,24 @@ const GalleryModal: FC<Props> = ({ visible, onClose }): JSX.Element => {
             custom-scroll-bar"
           >
             {/* TODO Change onSelect */}
-            <Gallery images={images} onSelect={() => {}} />
+            <Gallery
+              images={images}
+              onSelect={(src) => setSelectedImage(src)}
+              selectedImage={selectedImage}
+            />
           </div>
 
           {/* image selection and upload */}
-          <div className="basis-1/4"></div>
+          <div className="basis-1/4">
+            <div className="relative aspect-video bg-png-pattern">
+              <Image
+                src={selectedImage}
+                alt=""
+                layout="fill"
+                objectFit="contain"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </ModalContainer>
