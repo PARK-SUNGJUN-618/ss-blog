@@ -2,6 +2,7 @@ import { FC, useState } from "react";
 import ModalContainer, { ModalProps } from "@/components/common/ModalContainer";
 import Gallery from "./Gallery";
 import Image from "next/image";
+import ActionButton from "@/components/common/ActionButton";
 
 interface Props extends ModalProps {}
 
@@ -103,14 +104,29 @@ const GalleryModal: FC<Props> = ({ visible, onClose }): JSX.Element => {
           </div>
 
           {/* image selection and upload */}
-          <div className="basis-1/4">
-            <div className="relative aspect-video bg-png-pattern">
-              <Image
-                src={selectedImage}
-                alt=""
-                layout="fill"
-                objectFit="contain"
-              />
+          <div className="basis-1/4 px-2">
+            <div className="space-y-4">
+              {selectedImage ? (
+                <>
+                  <textarea
+                    className="resize-none w-full bg-transparent
+                    rounded border-2 border-secondary-dark focus:ring-1
+                    text-primary dark:text-primary-dark h-32 p-1"
+                    placeholder="Alt text"
+                  ></textarea>
+
+                  <ActionButton busy title="Select" />
+
+                  <div className="relative aspect-video bg-png-pattern">
+                    <Image
+                      src={selectedImage}
+                      alt=""
+                      layout="fill"
+                      objectFit="contain"
+                    />
+                  </div>
+                </>
+              ) : null}
             </div>
           </div>
         </div>
