@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { ChangeEventHandler, FC, useState } from "react";
 import ModalContainer, { ModalProps } from "@/components/common/ModalContainer";
 import Gallery from "./Gallery";
 import Image from "next/image";
@@ -84,6 +84,18 @@ const images = [
 
 const GalleryModal: FC<Props> = ({ visible, onClose }): JSX.Element => {
   const [selectedImage, setSelectedImage] = useState("");
+  const [altText, setAltText] = useState("");
+
+  const handleOnImageChange: ChangeEventHandler<HTMLInputElement> = ({
+    target,
+  }) => {
+    const { files } = target;
+    if (!files) return;
+
+    const file = files[0];
+    console.log(file);
+  };
+
   return (
     <ModalContainer visible={visible} onClose={onClose}>
       <div
@@ -108,7 +120,12 @@ const GalleryModal: FC<Props> = ({ visible, onClose }): JSX.Element => {
           <div className="basis-1/4 px-2">
             <div className="space-y-4">
               <div>
-                <input hidden type="file" id="image-input" />
+                <input
+                  onChange={handleOnImageChange}
+                  hidden
+                  type="file"
+                  id="image-input"
+                />
                 <label htmlFor="image-input">
                   <div
                     className="w-full border-2 border-action
@@ -127,6 +144,8 @@ const GalleryModal: FC<Props> = ({ visible, onClose }): JSX.Element => {
                     rounded border-2 border-secondary-dark focus:ring-1
                     text-primary dark:text-primary-dark h-32 p-1"
                     placeholder="Alt text"
+                    value={altText}
+                    onChange={({ target }) => setAltText(target.value)}
                   ></textarea>
 
                   <ActionButton busy title="Select" />
