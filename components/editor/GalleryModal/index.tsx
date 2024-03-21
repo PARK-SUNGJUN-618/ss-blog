@@ -5,7 +5,15 @@ import Image from "next/image";
 import ActionButton from "@/components/common/ActionButton";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 
-interface Props extends ModalProps {}
+export interface ImageSelectionResult {
+  src: string;
+  altText: string;
+}
+
+interface Props extends ModalProps {
+  onImageSelect(image: File): void;
+  onSelect(result: ImageSelectionResult): void;
+}
 
 const images = [
   {
@@ -82,7 +90,12 @@ const images = [
   },
 ];
 
-const GalleryModal: FC<Props> = ({ visible, onClose }): JSX.Element => {
+const GalleryModal: FC<Props> = ({
+  visible,
+  onImageSelect,
+  onSelect,
+  onClose,
+}): JSX.Element => {
   const [selectedImage, setSelectedImage] = useState("");
   const [altText, setAltText] = useState("");
 
@@ -93,7 +106,15 @@ const GalleryModal: FC<Props> = ({ visible, onClose }): JSX.Element => {
     if (!files) return;
 
     const file = files[0];
-    console.log(file);
+    if (!file.type.startsWith("image")) return onClose && onClose();
+
+    onImageSelect(file);
+  };
+
+  const handleSelection = () => {
+    if (!selectedImage) return onClose && onClose();
+
+    onSelect({ src: selectedImage, altText });
   };
 
   return (
@@ -148,7 +169,7 @@ const GalleryModal: FC<Props> = ({ visible, onClose }): JSX.Element => {
                     onChange={({ target }) => setAltText(target.value)}
                   ></textarea>
 
-                  <ActionButton busy title="Select" />
+                  <ActionButton onClick={handleSelection} title="Select" />
 
                   <div className="relative aspect-video bg-png-pattern">
                     <Image

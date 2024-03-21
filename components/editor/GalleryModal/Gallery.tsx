@@ -15,7 +15,7 @@ const Gallery: FC<Props> = ({
   uploading = false,
   selectedImage = "",
 }): JSX.Element => {
-  console.log(images);
+  // console.log(images);
   return (
     <div className="flex flex-wrap">
       {uploading && (

@@ -75,6 +75,13 @@ const Editor: FC<Props> = (props): JSX.Element => {
       <GalleryModal
         visible={showGallery}
         onClose={() => setShowGallery(false)}
+        onImageSelect={
+          // upload login
+          () => {}
+        }
+        onSelect={(result) => {
+          console.log(result);
+        }}
       />
     </>
   );
