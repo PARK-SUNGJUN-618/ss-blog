@@ -5,10 +5,11 @@ import Underline from "@tiptap/extension-underline";
 import Placeholder from "@tiptap/extension-placeholder";
 import Link from "@tiptap/extension-link";
 import Youtube from "@tiptap/extension-youtube";
+import TiptapImage from "@tiptap/extension-image";
 
 import Toolbar from "./toolbar";
 import EditLink from "./Link/EditLink";
-import GalleryModal from "./GalleryModal";
+import GalleryModal, { ImageSelectionResult } from "./GalleryModal";
 
 interface Props {}
 
@@ -38,6 +39,11 @@ const Editor: FC<Props> = (props): JSX.Element => {
           class: "mx-auto rounded",
         },
       }),
+      TiptapImage.configure({
+        HTMLAttributes: {
+          class: "mx-auto",
+        },
+      }),
     ],
     editorProps: {
       handleClick(view, pos, event) {
@@ -54,6 +60,14 @@ const Editor: FC<Props> = (props): JSX.Element => {
       },
     },
   });
+
+  const handleImageSelection = (result: ImageSelectionResult) => {
+    editor
+      ?.chain()
+      .focus()
+      .setImage({ src: result.src, alt: result.altText })
+      .run();
+  };
 
   useEffect(() => {
     if (editor && selectionRange) {
@@ -75,13 +89,11 @@ const Editor: FC<Props> = (props): JSX.Element => {
       <GalleryModal
         visible={showGallery}
         onClose={() => setShowGallery(false)}
-        onImageSelect={
+        onFileSelect={
           // upload login
           () => {}
         }
-        onSelect={(result) => {
-          console.log(result);
-        }}
+        onSelect={handleImageSelection}
       />
     </>
   );
