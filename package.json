@@ -19,6 +19,8 @@
     "@tiptap/react": "^2.2.4",
     "@tiptap/starter-kit": "^2.2.4",
     "classnames": "^2.5.1",
+    "cloudinary": "^2.0.3",
+    "formidable": "^3.5.1",
     "next": "14.1.0",
     "react": "^18",
     "react-dom": "^18",
