@@ -33,7 +33,7 @@ const uploadNewImage: NextApiHandler = (req, res) => {
       }
     );
 
-    res.json({ image: secure_url });
+    res.json({ src: secure_url });
   });
 };
 

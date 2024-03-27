@@ -19,7 +19,7 @@ const Image: FC<Props> = ({ src, selected, onClick }): JSX.Element => {
         width={132}
         height={132}
         alt="gallery"
-        className="h-[132px] bg-secondary-light hover:scale-110
+        className="min-w-[132px] h-[132px] bg-secondary-light hover:scale-110
           transition object-cover"
       />
       <div className="absolute top-2 left-2">
