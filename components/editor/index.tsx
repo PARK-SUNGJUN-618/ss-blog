@@ -6,11 +6,12 @@ import Placeholder from "@tiptap/extension-placeholder";
 import Link from "@tiptap/extension-link";
 import Youtube from "@tiptap/extension-youtube";
 import TiptapImage from "@tiptap/extension-image";
+import axios from "axios";
 
 import Toolbar from "./toolbar";
 import EditLink from "./Link/EditLink";
 import GalleryModal, { ImageSelectionResult } from "./GalleryModal";
-import axios from "axios";
+import SEOForm from "./SeoForm";
 
 interface Props {}
 
@@ -114,6 +115,7 @@ const Editor: FC<Props> = (props): JSX.Element => {
         <div className="h-[1px] w-full bg-secondary-dark dark:bg-secondary-light my-3" />
         {editor ? <EditLink editor={editor} /> : null}
         <EditorContent editor={editor} />
+        <SEOForm />
       </div>
       <GalleryModal
         visible={showGallery}
