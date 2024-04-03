@@ -101,6 +101,9 @@ const Editor: FC<Props> = (props): JSX.Element => {
   return (
     <>
       <div className="p-3 dark:bg-primary-dark bg-primary transition">
+        {/* Thumbnail Selector and Submit Button */}
+
+        {/* Title Input */}
         <input
           type="text"
           className="py-2 outline-none bg-transparent w-full border-0 border-b-[1px]
