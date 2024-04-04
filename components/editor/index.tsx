@@ -12,6 +12,8 @@ import Toolbar from "./toolbar";
 import EditLink from "./Link/EditLink";
 import GalleryModal, { ImageSelectionResult } from "./GalleryModal";
 import SEOForm from "./SeoForm";
+import ActionButton from "../common/ActionButton";
+import ThumbnailSelector from "./ThumbnailSelector";
 
 interface Props {}
 
@@ -102,6 +104,12 @@ const Editor: FC<Props> = (props): JSX.Element => {
     <>
       <div className="p-3 dark:bg-primary-dark bg-primary transition">
         {/* Thumbnail Selector and Submit Button */}
+        <div className="flex items-center justify-between mb-3">
+          <ThumbnailSelector />
+          <div className="inline-block">
+            <ActionButton title="Submit" />
+          </div>
+        </div>
 
         {/* Title Input */}
         <input
