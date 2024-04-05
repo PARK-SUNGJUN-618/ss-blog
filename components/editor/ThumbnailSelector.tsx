@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { ChangeEventHandler, FC } from "react";
+import { ChangeEventHandler, FC, useState } from "react";
 
 interface Props {}
 
@@ -7,13 +7,15 @@ const commonClass =
   "border border-dashed border-secondary-dark rounded cursor-pointer flex items-center justify-center aspect-video";
 
 const ThumbnailSelector: FC<Props> = (props): JSX.Element => {
+  const [selectedThumbnail, setSelectedThumbnail] = useState("");
   const handleChange: ChangeEventHandler<HTMLInputElement> = ({ target }) => {
     const { files } = target;
     if (!files) return;
 
     const file = files[0];
-    URL.createObjectURL(file);
+    setSelectedThumbnail(URL.createObjectURL(file));
   };
+
   return (
     <div className="w-32">
       <input
@@ -24,7 +26,15 @@ const ThumbnailSelector: FC<Props> = (props): JSX.Element => {
         onChange={handleChange}
       />
       <label htmlFor="thumbnail">
-        <PosterUI label="Thumbnail" />
+        {selectedThumbnail ? (
+          <img
+            src={selectedThumbnail}
+            alt=""
+            className={classNames(commonClass, "object-cover")}
+          />
+        ) : (
+          <PosterUI label="Thumbnail" />
+        )}
       </label>
     </div>
   );
