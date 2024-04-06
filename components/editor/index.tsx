@@ -105,7 +105,7 @@ const Editor: FC<Props> = (props): JSX.Element => {
       <div className="p-3 dark:bg-primary-dark bg-primary transition">
         {/* Thumbnail Selector and Submit Button */}
         <div className="flex items-center justify-between mb-3">
-          <ThumbnailSelector />
+          <ThumbnailSelector onChange={(file) => console.log(file)} />
           <div className="inline-block">
             <ActionButton title="Submit" />
           </div>
