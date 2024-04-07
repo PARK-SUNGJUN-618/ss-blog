@@ -103,27 +103,33 @@ const Editor: FC<Props> = (props): JSX.Element => {
   return (
     <>
       <div className="p-3 dark:bg-primary-dark bg-primary transition">
-        {/* Thumbnail Selector and Submit Button */}
-        <div className="flex items-center justify-between mb-3">
-          <ThumbnailSelector onChange={(file) => console.log(file)} />
-          <div className="inline-block">
-            <ActionButton title="Submit" />
+        <div
+          className="sticky top-0 z-10 dark:bg-primary-dark bg-primary
+            "
+        >
+          {/* Thumbnail Selector and Submit Button */}
+          <div className="flex items-center justify-between mb-3">
+            <ThumbnailSelector onChange={(file) => console.log(file)} />
+            <div className="inline-block">
+              <ActionButton title="Submit" />
+            </div>
           </div>
-        </div>
 
-        {/* Title Input */}
-        <input
-          type="text"
-          className="py-2 outline-none bg-transparent w-full border-0 border-b-[1px]
+          {/* Title Input */}
+          <input
+            type="text"
+            className="py-2 outline-none bg-transparent w-full border-0 border-b-[1px]
           border-secondary-dark dark:border-secondary-light text-3xl font-semibold italic
           text-primary-dark dark:text-primary mb-3"
-          placeholder="Title"
-        />
-        <Toolbar
-          editor={editor}
-          onOpenImageClick={() => setShowGallery(true)}
-        />
-        <div className="h-[1px] w-full bg-secondary-dark dark:bg-secondary-light my-3" />
+            placeholder="Title"
+          />
+          <Toolbar
+            editor={editor}
+            onOpenImageClick={() => setShowGallery(true)}
+          />
+          <div className="h-[1px] w-full bg-secondary-dark dark:bg-secondary-light my-3" />
+        </div>
+
         {editor ? <EditLink editor={editor} /> : null}
         <EditorContent editor={editor} className="min-h-[300px]" />
         <div className="h-[1px] w-full bg-secondary-dark dark:bg-secondary-light my-3" />
