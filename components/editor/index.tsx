@@ -11,9 +11,15 @@ import axios from "axios";
 import Toolbar from "./toolbar";
 import EditLink from "./Link/EditLink";
 import GalleryModal, { ImageSelectionResult } from "./GalleryModal";
-import SEOForm from "./SeoForm";
+import SEOForm, { SeoResult } from "./SeoForm";
 import ActionButton from "../common/ActionButton";
 import ThumbnailSelector from "./ThumbnailSelector";
+
+interface FinalPost extends SeoResult {
+  title: string;
+  content: string;
+  thumbnail?: File | string;
+}
 
 interface Props {}
 
@@ -22,6 +28,13 @@ const Editor: FC<Props> = (props): JSX.Element => {
   const [showGallery, setShowGallery] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [images, setImages] = useState<{ src: string }[]>([]);
+  const [post, setPost] = useState<FinalPost>({
+    title: "",
+    content: "",
+    meta: "",
+    tags: "",
+    slug: "",
+  });
 
   const fetchImages = async () => {
     const { data } = await axios("/api/image");
