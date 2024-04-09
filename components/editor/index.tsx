@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { ChangeEventHandler, FC, useEffect, useState } from "react";
 import { useEditor, EditorContent, getMarkRange, Range } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
@@ -103,6 +103,13 @@ const Editor: FC<Props> = (props): JSX.Element => {
       .run();
   };
 
+  const updateTitle: ChangeEventHandler<HTMLInputElement> = ({ target }) =>
+    setPost({ ...post, title: target.value });
+
+  const updateSeoValue = (result: SeoResult) => setPost({ ...post, ...result });
+
+  const updateThumbnail = (file: File) => setPost({ ...post, thumbnail: file });
+
   useEffect(() => {
     if (editor && selectionRange) {
       editor.commands.setTextSelection(selectionRange);
@@ -122,7 +129,7 @@ const Editor: FC<Props> = (props): JSX.Element => {
         >
           {/* Thumbnail Selector and Submit Button */}
           <div className="flex items-center justify-between mb-3">
-            <ThumbnailSelector onChange={(file) => console.log(file)} />
+            <ThumbnailSelector onChange={updateThumbnail} />
             <div className="inline-block">
               <ActionButton title="Submit" />
             </div>
@@ -135,6 +142,7 @@ const Editor: FC<Props> = (props): JSX.Element => {
           border-secondary-dark dark:border-secondary-light text-3xl font-semibold italic
           text-primary-dark dark:text-primary mb-3"
             placeholder="Title"
+            onChange={updateTitle}
           />
           <Toolbar
             editor={editor}
@@ -146,11 +154,7 @@ const Editor: FC<Props> = (props): JSX.Element => {
         {editor ? <EditLink editor={editor} /> : null}
         <EditorContent editor={editor} className="min-h-[300px]" />
         <div className="h-[1px] w-full bg-secondary-dark dark:bg-secondary-light my-3" />
-        <SEOForm
-          onChange={(result) => {
-            console.log(result);
-          }}
-        />
+        <SEOForm onChange={updateSeoValue} />
       </div>
       <GalleryModal
         visible={showGallery}
