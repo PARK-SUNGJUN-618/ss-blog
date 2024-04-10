@@ -21,9 +21,11 @@ interface FinalPost extends SeoResult {
   thumbnail?: File | string;
 }
 
-interface Props {}
+interface Props {
+  onSubmit(post: FinalPost): void;
+}
 
-const Editor: FC<Props> = (props): JSX.Element => {
+const Editor: FC<Props> = ({ onSubmit }): JSX.Element => {
   const [selectionRange, setSelectionRange] = useState<Range>();
   const [showGallery, setShowGallery] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -103,6 +105,11 @@ const Editor: FC<Props> = (props): JSX.Element => {
       .run();
   };
 
+  const handleSubmit = () => {
+    if (!editor) return;
+    onSubmit({ ...post, content: editor.getHTML() });
+  };
+
   const updateTitle: ChangeEventHandler<HTMLInputElement> = ({ target }) =>
     setPost({ ...post, title: target.value });
 
@@ -131,7 +138,7 @@ const Editor: FC<Props> = (props): JSX.Element => {
           <div className="flex items-center justify-between mb-3">
             <ThumbnailSelector onChange={updateThumbnail} />
             <div className="inline-block">
-              <ActionButton title="Submit" />
+              <ActionButton title="Submit" onClick={handleSubmit} />
             </div>
           </div>
 
