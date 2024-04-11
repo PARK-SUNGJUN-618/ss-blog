@@ -161,7 +161,7 @@ const Editor: FC<Props> = ({ onSubmit }): JSX.Element => {
         {editor ? <EditLink editor={editor} /> : null}
         <EditorContent editor={editor} className="min-h-[300px]" />
         <div className="h-[1px] w-full bg-secondary-dark dark:bg-secondary-light my-3" />
-        <SEOForm onChange={updateSeoValue} />
+        <SEOForm onChange={updateSeoValue} title={post.title} />
       </div>
       <GalleryModal
         visible={showGallery}
