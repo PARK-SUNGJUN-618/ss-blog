@@ -15,17 +15,25 @@ import SEOForm, { SeoResult } from "./SeoForm";
 import ActionButton from "../common/ActionButton";
 import ThumbnailSelector from "./ThumbnailSelector";
 
-interface FinalPost extends SeoResult {
+export interface FinalPost extends SeoResult {
   title: string;
   content: string;
   thumbnail?: File | string;
 }
 
 interface Props {
+  initialValue?: FinalPost;
+  btnTitle?: string;
+  busy?: boolean;
   onSubmit(post: FinalPost): void;
 }
 
-const Editor: FC<Props> = ({ onSubmit }): JSX.Element => {
+const Editor: FC<Props> = ({
+  initialValue,
+  btnTitle = "Submit",
+  busy = false,
+  onSubmit,
+}): JSX.Element => {
   const [selectionRange, setSelectionRange] = useState<Range>();
   const [showGallery, setShowGallery] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -127,6 +135,12 @@ const Editor: FC<Props> = ({ onSubmit }): JSX.Element => {
     fetchImages();
   }, []);
 
+  useEffect(() => {
+    if (initialValue) {
+      setPost({ ...initialValue });
+    }
+  }, [initialValue]);
+
   return (
     <>
       <div className="p-3 dark:bg-primary-dark bg-primary transition">
@@ -138,7 +152,11 @@ const Editor: FC<Props> = ({ onSubmit }): JSX.Element => {
           <div className="flex items-center justify-between mb-3">
             <ThumbnailSelector onChange={updateThumbnail} />
             <div className="inline-block">
-              <ActionButton title="Submit" onClick={handleSubmit} />
+              <ActionButton
+                busy={busy}
+                title={btnTitle}
+                onClick={handleSubmit}
+              />
             </div>
           </div>
 
