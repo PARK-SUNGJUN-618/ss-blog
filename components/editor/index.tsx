@@ -38,6 +38,7 @@ const Editor: FC<Props> = ({
   const [showGallery, setShowGallery] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [images, setImages] = useState<{ src: string }[]>([]);
+  const [seoInitialValue, setSeoInitialValue] = useState<SeoResult>();
   const [post, setPost] = useState<FinalPost>({
     title: "",
     content: "",
@@ -138,8 +139,12 @@ const Editor: FC<Props> = ({
   useEffect(() => {
     if (initialValue) {
       setPost({ ...initialValue });
+      editor?.commands.setContent(initialValue.content);
+
+      const { meta, slug, tags } = initialValue;
+      setSeoInitialValue({ meta, slug, tags });
     }
-  }, [initialValue]);
+  }, [initialValue, editor]);
 
   return (
     <>
@@ -179,7 +184,11 @@ const Editor: FC<Props> = ({
         {editor ? <EditLink editor={editor} /> : null}
         <EditorContent editor={editor} className="min-h-[300px]" />
         <div className="h-[1px] w-full bg-secondary-dark dark:bg-secondary-light my-3" />
-        <SEOForm onChange={updateSeoValue} title={post.title} />
+        <SEOForm
+          onChange={updateSeoValue}
+          title={post.title}
+          initialValue={seoInitialValue}
+        />
       </div>
       <GalleryModal
         visible={showGallery}
