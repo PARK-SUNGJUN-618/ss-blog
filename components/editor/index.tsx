@@ -155,7 +155,10 @@ const Editor: FC<Props> = ({
         >
           {/* Thumbnail Selector and Submit Button */}
           <div className="flex items-center justify-between mb-3">
-            <ThumbnailSelector onChange={updateThumbnail} />
+            <ThumbnailSelector
+              initialValue={post.thumbnail as string}
+              onChange={updateThumbnail}
+            />
             <div className="inline-block">
               <ActionButton
                 busy={busy}
@@ -173,6 +176,7 @@ const Editor: FC<Props> = ({
           text-primary-dark dark:text-primary mb-3"
             placeholder="Title"
             onChange={updateTitle}
+            value={post.title}
           />
           <Toolbar
             editor={editor}
