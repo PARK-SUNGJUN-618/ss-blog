@@ -23,6 +23,7 @@
     "classnames": "^2.5.1",
     "cloudinary": "^2.0.3",
     "formidable": "^3.5.1",
+    "joi": "^17.12.3",
     "mongoose": "^8.3.2",
     "next": "14.1.0",
     "react": "^18",
