@@ -18,11 +18,20 @@ const createNewPost: NextApiHandler = (req, res) => {
   const { body } = req;
 
   const schema = Joi.object().keys({
-    title: Joi.string().required(),
+    title: Joi.string().required().messages({
+      "string.empty": "Title can not be empty",
+      "any.required": "Title is a required field",
+    }),
+    content: Joi.string().required(),
   });
 
-  const { error } = schema.validate(body);
-  console.log(error);
+  const { error } = schema.validate(body, {
+    errors: { label: "key", wrap: { label: false, array: false } },
+  });
+  if (error) {
+    const errorMessage = error.details[0].message;
+    return res.status(400).json({ error: errorMessage });
+  }
 
   res.json({ ok: true });
 };
