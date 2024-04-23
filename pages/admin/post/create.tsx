@@ -15,11 +15,9 @@ const Create: NextPage<Props> = () => {
         if (key === "tags") {
           const tags = value.split(",").map((tag: string) => tag.trim());
           formData.append("tags", JSON.stringify(tags));
-          console.log("JSON.stringify(tags):", JSON.stringify(tags));
         } else formData.append(key, value);
       }
       // submit our post
-      console.log("formData:", formData);
       const { data } = await axios.post("/api/posts", formData);
       console.log(data);
     } catch (error: any) {
