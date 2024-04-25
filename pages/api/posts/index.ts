@@ -3,6 +3,7 @@ import { NextApiHandler } from "next";
 import { postValidationSchema, validateSchema } from "@/lib/validator";
 import { readFile } from "@/lib/utils";
 import Post from "@/models/Post";
+import formidable from "formidable";
 
 export const config = {
   api: { bodyParser: false },
@@ -56,6 +57,9 @@ const createNewPost: NextApiHandler = async (req, res) => {
   });
 
   await newPost.save();
+
+  // uploading thumbnail if there is any
+  const thumbnail = files.thumbnail as formidable.File[];
 
   res.json({ post: newPost });
 };
