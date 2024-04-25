@@ -4,6 +4,7 @@ import { postValidationSchema, validateSchema } from "@/lib/validator";
 import { readFile } from "@/lib/utils";
 import Post from "@/models/Post";
 import formidable from "formidable";
+import cloudinary from "@/lib/cloudinary";
 
 export const config = {
   api: { bodyParser: false },
@@ -56,11 +57,19 @@ const createNewPost: NextApiHandler = async (req, res) => {
     tags,
   });
 
-  await newPost.save();
-
   // uploading thumbnail if there is any
   const thumbnail = files.thumbnail as formidable.File[];
+  if (thumbnail) {
+    const { secure_url: url, public_id } = await cloudinary.uploader.upload(
+      thumbnail[0].filepath,
+      {
+        folder: "ssblog",
+      }
+    );
+    newPost.thumbnail = { url, public_id };
+  }
 
+  await newPost.save();
   res.json({ post: newPost });
 };
 
