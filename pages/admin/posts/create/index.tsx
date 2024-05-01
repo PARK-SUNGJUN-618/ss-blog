@@ -9,8 +9,10 @@ interface Props {}
 const Create: NextPage<Props> = () => {
   const handleSubmit = async (post: FinalPost) => {
     try {
+      console.log("post:", post);
       // generate FormData
       const formData = generateFormData(post);
+      console.log("formData:", formData);
       // submit our post
       const { data } = await axios.post("/api/posts", formData);
       console.log(data);

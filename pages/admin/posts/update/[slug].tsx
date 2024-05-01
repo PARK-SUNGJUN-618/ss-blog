@@ -22,7 +22,7 @@ const Update: NextPage<Props> = ({ post }) => {
       // generate FormData
       const formData = generateFormData(post);
       // submit our post
-      const { data } = await axios.patch("/api/posts", formData);
+      const { data } = await axios.patch("/api/posts/" + post.id, formData);
       console.log(data);
     } catch (error: any) {
       console.log(error.response.data);

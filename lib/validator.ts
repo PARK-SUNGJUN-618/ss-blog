@@ -9,10 +9,12 @@ export const errorMessages = {
 };
 
 export const postValidationSchema = Joi.object().keys({
-  title: Joi.string().required().messages({
-    "string.empty": errorMessages.INVALID_TITLE,
-    "any.required": errorMessages.INVALID_TITLE,
-  }),
+  title: Joi.string()
+    .required()
+    .messages({
+      "string.empty": errorMessages.INVALID_TITLE + "string.empty",
+      "any.required": errorMessages.INVALID_TITLE + "any.required",
+    }),
   content: Joi.string().required().messages({
     "string.empty": errorMessages.INVALID_CONTENT,
     "any.required": errorMessages.INVALID_CONTENT,

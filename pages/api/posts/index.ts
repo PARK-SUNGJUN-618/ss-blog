@@ -37,7 +37,7 @@ const createNewPost: NextApiHandler = async (req, res) => {
   let tags = [];
   if (bodyOutput.tags) tags = JSON.parse(bodyOutput.tags as string);
 
-  //console.log("bodyOutput", bodyOutput);
+  // console.log("tags:", tags);
   const error = validateSchema(postValidationSchema, { ...bodyOutput, tags });
   if (error) return res.status(400).json({ error });
 
