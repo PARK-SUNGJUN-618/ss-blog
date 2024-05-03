@@ -22,26 +22,34 @@ const handler: NextApiHandler = async (req, res) => {
   }
 };
 
+interface IncomingPost {
+  title: string;
+  content: string;
+  slug: string;
+  meta: string;
+  tags: string;
+}
+
 const createNewPost: NextApiHandler = async (req, res) => {
-  const { files, body } = await readFile(req);
+  const { files, body } = await readFile<IncomingPost>(req);
 
   // maybe, formidable version issue.
-  const bodyOutput = Object.fromEntries(
-    Object.entries(body).map(([key, value]) => [
-      key,
-      Array.isArray(value) ? value[0] : value,
-    ])
-  );
+  // const bodyOutput = Object.fromEntries(
+  //   Object.entries(body).map(([key, value]) => [
+  //     key,
+  //     Array.isArray(value) ? value[0] : value,
+  //   ])
+  // );
 
   // tags will be in string form so converting to array
   let tags = [];
-  if (bodyOutput.tags) tags = JSON.parse(bodyOutput.tags as string);
+  if (body.tags) tags = JSON.parse(body.tags as string);
 
   // console.log("tags:", tags);
-  const error = validateSchema(postValidationSchema, { ...bodyOutput, tags });
+  const error = validateSchema(postValidationSchema, { ...body, tags });
   if (error) return res.status(400).json({ error });
 
-  const { title, content, slug, meta } = bodyOutput;
+  const { title, content, slug, meta } = body;
 
   await dbConnect();
   const alearyExist = await Post.findOne({ slug });
