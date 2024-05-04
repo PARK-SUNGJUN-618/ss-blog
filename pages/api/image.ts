@@ -27,9 +27,7 @@ const uploadNewImage: NextApiHandler = (req, res) => {
     const imageFile = files.image as formidable.File[];
     const { secure_url } = await cloudinary.uploader.upload(
       imageFile[0].filepath,
-      {
-        folder: "ss-blogs",
-      }
+      { folder: "ssblog" }
     );
 
     res.json({ src: secure_url });
@@ -41,7 +39,7 @@ const readAllImages: NextApiHandler = async (req, res) => {
     const { resources } = await cloudinary.api.resources({
       resource_type: "image",
       type: "upload",
-      prefix: "ss-blogs",
+      prefix: "ssblog",
     });
     const images = resources.map(({ secure_url }: any) => ({
       src: secure_url,
