@@ -31,6 +31,8 @@ export const readFile = <T extends object>(
 };
 
 export const readPostsFromDb = async (limit: number, pageNo: number) => {
+  if (!limit || limit > 10)
+    throw Error("Please use limit under 10 and a valid pageNo");
   const skip = limit * pageNo;
   await dbConnect();
   const posts = await Post.find()
