@@ -22,12 +22,15 @@ const Posts: NextPage<Props> = ({ posts }) => {
   const [hasMorePosts, setHasMorePosts] = useState(true);
 
   const fetchMorePosts = async () => {
+    console.log("here!?");
     try {
       pageNo++;
       const { data } = await axios(
         `/api/posts?limit=${limit}&pageNo=${pageNo}`
       );
       setPostsToRender([...postsToRender, ...data.posts]);
+      console.log("data.posts.length:", data.posts.length);
+      console.log("limit:", limit);
       if (data.posts.length < limit) {
         setHasMorePosts(false);
       }
