@@ -26,11 +26,7 @@ const ProfileHead: FC<Props> = ({
     <div className="flex items-center">
       {/* image / name initial */}
       <div className={classNames(commonClasses, getStyle())}>
-        {avatar ? (
-          <Image src={avatar} layout="fill" alt="profile" />
-        ) : (
-          nameInitial
-        )}
+        {avatar ? <Image src={avatar} fill alt="profile" /> : nameInitial}
       </div>
 
       {/* down icon */}
