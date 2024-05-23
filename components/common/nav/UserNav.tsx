@@ -6,13 +6,17 @@ import { HiLightBulb } from "react-icons/hi";
 import { GitHubAuthButton } from "@/components/button";
 import ProfileHead from "../ProfileHead";
 import DropdownOptions, { dropDownOptions } from "../DropdownOptions";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 
 interface Props {}
 
 const UserNav: FC<Props> = (props): JSX.Element => {
-  const session = useSession();
-  console.log(session);
+  const { data, status } = useSession();
+  const isAuth = status === "authenticated";
+
+  const handleLoginWithGithub = async () => {
+    await signIn();
+  };
 
   const dropDownOptions: dropDownOptions = [
     { label: "Dashboard", onClick() {} },
@@ -33,12 +37,14 @@ const UserNav: FC<Props> = (props): JSX.Element => {
           <HiLightBulb size={34} />
         </button>
 
-        {/* <GitHubAuthButton lightOnly /> */}
-
-        <DropdownOptions
-          options={dropDownOptions}
-          head={<ProfileHead nameInitial="P" lightOnly />}
-        />
+        {isAuth ? (
+          <DropdownOptions
+            options={dropDownOptions}
+            head={<ProfileHead nameInitial="P" lightOnly />}
+          />
+        ) : (
+          <GitHubAuthButton onClick={handleLoginWithGithub} lightOnly />
+        )}
       </div>
     </div>
   );
