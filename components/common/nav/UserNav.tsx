@@ -6,7 +6,7 @@ import { HiLightBulb } from "react-icons/hi";
 import { GitHubAuthButton } from "@/components/button";
 import ProfileHead from "../ProfileHead";
 import DropdownOptions, { dropDownOptions } from "../DropdownOptions";
-import { signIn, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 interface Props {}
 
@@ -15,12 +15,17 @@ const UserNav: FC<Props> = (props): JSX.Element => {
   const isAuth = status === "authenticated";
 
   const handleLoginWithGithub = async () => {
-    await signIn();
+    await signIn("github");
   };
 
   const dropDownOptions: dropDownOptions = [
     { label: "Dashboard", onClick() {} },
-    { label: "Logout", onClick() {} },
+    {
+      label: "Logout",
+      async onClick() {
+        await signOut();
+      },
+    },
   ];
   return (
     <div className="flex items-center justify-between bg-primary-dark px-3 py-1">
