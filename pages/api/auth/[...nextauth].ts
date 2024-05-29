@@ -40,6 +40,10 @@ const authOptions: NextAuthOptions = {
       return token;
     },
   },
+  pages: {
+    signIn: "/auth/signin",
+    error: "/404",
+  },
 };
 
 export default NextAuth(authOptions);
