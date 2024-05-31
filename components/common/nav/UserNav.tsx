@@ -7,10 +7,12 @@ import { GitHubAuthButton } from "@/components/button";
 import ProfileHead from "../ProfileHead";
 import DropdownOptions, { dropDownOptions } from "../DropdownOptions";
 import { signIn, signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 interface Props {}
 
 const UserNav: FC<Props> = (props): JSX.Element => {
+  const router = useRouter();
   const { data, status } = useSession();
   const isAuth = status === "authenticated";
 
@@ -19,7 +21,12 @@ const UserNav: FC<Props> = (props): JSX.Element => {
   };
 
   const dropDownOptions: dropDownOptions = [
-    { label: "Dashboard", onClick() {} },
+    {
+      label: "Dashboard",
+      onClick() {
+        router.push("/admin");
+      },
+    },
     {
       label: "Logout",
       async onClick() {
