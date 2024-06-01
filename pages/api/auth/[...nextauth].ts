@@ -40,6 +40,7 @@ const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session }) {
+      await dbConnect();
       const user = await User.findOne({ email: session.user?.email });
       if (user)
         session.user = {
