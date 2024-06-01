@@ -39,6 +39,9 @@ const authOptions: NextAuthOptions = {
       if (user) token.role = (user as any).role;
       return token;
     },
+    session({ session }) {
+      return session;
+    },
   },
   pages: {
     signIn: "/auth/signin",
