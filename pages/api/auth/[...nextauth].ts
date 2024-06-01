@@ -39,7 +39,16 @@ const authOptions: NextAuthOptions = {
       if (user) token.role = (user as any).role;
       return token;
     },
-    session({ session }) {
+    async session({ session }) {
+      const user = await User.findOne({ email: session.user?.email });
+      if (user)
+        session.user = {
+          id: user._id.toString(),
+          name: user.name,
+          email: user.email,
+          avatar: user.avatar,
+          role: user.role,
+        } as any;
       return session;
     },
   },
