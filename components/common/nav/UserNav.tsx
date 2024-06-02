@@ -9,6 +9,7 @@ import DropdownOptions, { dropDownOptions } from "../DropdownOptions";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { UserProfile } from "@/utils/types";
+import useDarkMode from "@/hooks/useDarkMode";
 
 interface Props {}
 
@@ -27,6 +28,8 @@ const UserNav: FC<Props> = (props): JSX.Element => {
   const isAuth = status === "authenticated";
   const profile = data?.user as UserProfile | undefined;
   const isAdmin = profile && profile.role === "admin";
+
+  const { toggleTheme } = useDarkMode();
 
   const handleLoginWithGithub = async () => {
     await signIn("github");
@@ -54,8 +57,12 @@ const UserNav: FC<Props> = (props): JSX.Element => {
         <Logo className="bg-primary fill-highlight-light w-7 h-7 rounded-sm" />
         <span className="text-2xl font-semibold">{APP_NAME}</span>
       </Link>
+
       <div className="flex items-center space-x-5">
-        <button className="dark:text-secondary-dark text-secondary-light">
+        <button
+          onClick={toggleTheme}
+          className="dark:text-secondary-dark text-secondary-light"
+        >
           <HiLightBulb size={34} />
         </button>
 
