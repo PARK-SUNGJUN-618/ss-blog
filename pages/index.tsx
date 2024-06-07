@@ -10,6 +10,7 @@ import { PostDetail, UserProfile } from "@/utils/types";
 import InfiniteScrollPosts from "@/components/common/InfiniteScrollPosts";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import { filterPosts } from "@/utils/helper";
 
 type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
 
@@ -49,6 +50,9 @@ const Home: NextPage<Props> = ({ posts }) => {
           dataLength={postsToRender.length}
           posts={postsToRender}
           showControls={isAdmin}
+          onPostRemoved={(post) => {
+            setPostsToRender(filterPosts(posts, post));
+          }}
         />
       </div>
     </DefaultLayout>

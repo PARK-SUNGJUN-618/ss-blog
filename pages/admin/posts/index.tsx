@@ -3,6 +3,7 @@ import InfiniteScrollPosts from "@/components/common/InfiniteScrollPosts";
 import PostCard from "@/components/common/PostCard";
 import AdminLayout from "@/components/layout/AdminLayout";
 import { formatPosts, readPostsFromDb } from "@/lib/utils";
+import { filterPosts } from "@/utils/helper";
 import { PostDetail } from "@/utils/types";
 import axios from "axios";
 import {
@@ -50,6 +51,9 @@ const Posts: NextPage<Props> = ({ posts }) => {
           dataLength={postsToRender.length}
           posts={postsToRender}
           showControls
+          onPostRemoved={(post) => {
+            setPostsToRender(filterPosts(posts, post));
+          }}
         />
       </AdminLayout>
     </>
