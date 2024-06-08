@@ -21,14 +21,14 @@ const limit = 9;
 
 const Posts: NextPage<Props> = ({ posts }) => {
   const [postsToRender, setPostsToRender] = useState(posts);
-  const [hasMorePosts, setHasMorePosts] = useState(true);
+  const [hasMorePosts, setHasMorePosts] = useState(posts.length >= limit);
 
   const fetchMorePosts = async () => {
     console.log("here!?");
     try {
       pageNo++;
       const { data } = await axios(
-        `/api/posts?limit=${limit}&pageNo=${pageNo}`
+        `/api/posts?limit=${limit}&skip=${postsToRender.length}`
       );
       setPostsToRender([...postsToRender, ...data.posts]);
       console.log("data.posts.length:", data.posts.length);
@@ -52,7 +52,7 @@ const Posts: NextPage<Props> = ({ posts }) => {
           posts={postsToRender}
           showControls
           onPostRemoved={(post) => {
-            setPostsToRender(filterPosts(posts, post));
+            setPostsToRender(filterPosts(postsToRender, post));
           }}
         />
       </AdminLayout>

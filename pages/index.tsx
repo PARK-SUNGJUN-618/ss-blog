@@ -27,7 +27,7 @@ const Home: NextPage<Props> = ({ posts }) => {
     try {
       pageNo++;
       const { data } = await axios(
-        `/api/posts?limit=${limit}&pageNo=${pageNo}`
+        `/api/posts?limit=${limit}&skip=${postsToRender.length}`
       );
       setPostsToRender([...postsToRender, ...data.posts]);
       console.log("data.posts.length:", data.posts.length);

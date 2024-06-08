@@ -63,16 +63,20 @@ const InfiniteScrollPosts: FC<Props> = ({
       >
         <div className="max-w-4xl mx-auto p-3">
           <div className="grid grid-cols-3 gap-4">
-            {posts.map((post) => (
-              // <Link key={post.slug} href={"/" + post.slug}>
-              <PostCard
-                key={post.slug}
-                post={post}
-                controls={showControls}
-                onDeleteClick={() => handleOnDeleteClick(post)}
-                busy={removing}
-              />
-              // </Link>
+            {posts.map((post, index) => (
+              <div key={post.slug}>
+                <p className="font-semibold text-xl absolute p-2 z-50">
+                  {index + 1}
+                </p>
+                {/* <Link key={post.slug} href={"/" + post.slug}> */}
+                <PostCard
+                  post={post}
+                  controls={showControls}
+                  onDeleteClick={() => handleOnDeleteClick(post)}
+                  busy={post.id === postToRemove?.id && removing}
+                />
+                {/* </Link> */}
+              </div>
             ))}
           </div>
         </div>
