@@ -65,9 +65,10 @@ const InfiniteScrollPosts: FC<Props> = ({
           <div className="grid grid-cols-3 gap-4">
             {posts.map((post, index) => (
               <div key={post.slug}>
+                {/* // to test
                 <p className="font-semibold text-xl absolute p-2 z-50">
                   {index + 1}
-                </p>
+                </p> */}
                 {/* <Link key={post.slug} href={"/" + post.slug}> */}
                 <PostCard
                   post={post}
