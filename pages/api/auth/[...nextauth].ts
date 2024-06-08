@@ -3,11 +3,26 @@ import User from "@/models/User";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import GitHubAuthProvider from "next-auth/providers/github";
 
+const {
+  GITHUB_CLIENT_ID,
+  GITHUB_CLIENT_SECRET,
+  GITHUB_CLIENT_ID_FOR_LOCAL,
+  GITHUB_CLIENT_SECRET_FOR_LOCAL,
+  MODE,
+} = process.env;
+
+const GET_GITHUB_CLIENT_ID =
+  MODE === "development" ? GITHUB_CLIENT_ID_FOR_LOCAL : GITHUB_CLIENT_ID;
+const GET_GITHUB_CLIENT_SECRET =
+  MODE === "development"
+    ? GITHUB_CLIENT_SECRET_FOR_LOCAL
+    : GITHUB_CLIENT_SECRET;
+
 export const authOptions: NextAuthOptions = {
   providers: [
     GitHubAuthProvider({
-      clientId: process.env.GITHUB_CLIENT_ID as string,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+      clientId: GET_GITHUB_CLIENT_ID as string,
+      clientSecret: GET_GITHUB_CLIENT_SECRET as string,
       async profile(profile, tokens) {
         // find out the user
         await dbConnect();
