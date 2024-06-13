@@ -3,6 +3,7 @@ import { isAuth } from "@/lib/utils";
 import { commentValidationSchema, validateSchema } from "@/lib/validator";
 import Comment from "@/models/Comment";
 import Post from "@/models/Post";
+import { isValidObjectId } from "mongoose";
 import { NextApiHandler } from "next";
 
 const handler: NextApiHandler = (req, res) => {
@@ -50,6 +51,31 @@ const removeComment: NextApiHandler = async (req, res) => {
   // if chief comment remove other related comments (replies) as well.
   // if this is the reply comment remove from the chiefComments replies section
   // then remove the actual comment
+
+  const { commentId } = req.query;
+  if (!commentId || !isValidObjectId(commentId))
+    return res.status(422).json({ error: "Invalid request!" });
+
+  const comment = await Comment.findOne({ _id: commentId, owner: user.id });
+  if (!comment) return res.status(404).json({ error: "Comment not found!" });
+
+  // if chief comment remove other related comments (replies) as well.
+  if (comment.chiefComment) await Comment.deleteMany({ repliedTo: commentId });
+  else {
+    // if this is the reply comment remove from the chiefComments replies section
+    const chiefComment = await Comment.findById(comment.repliedTo);
+    if (chiefComment?.replies?.includes(commentId as any)) {
+      chiefComment.replies = chiefComment.replies.filter(
+        (cId) => cId.toString() !== commentId
+      );
+
+      await chiefComment.save();
+    }
+  }
+
+  // then remove the actual comment
+  await Comment.findByIdAndDelete(commentId);
+  res.json({ removed: true });
 };
 
 export default handler;
