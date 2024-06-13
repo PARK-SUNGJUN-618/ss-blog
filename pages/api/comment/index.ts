@@ -11,6 +11,8 @@ const handler: NextApiHandler = (req, res) => {
   switch (method) {
     case "POST":
       return createNewComment(req, res);
+    case "DELETE":
+      return removeComment(req, res);
 
     default:
       res.status(404).send("Not found!");
@@ -39,6 +41,15 @@ const createNewComment: NextApiHandler = async (req, res) => {
 
   await comment.save();
   res.status(201).json(comment);
+};
+
+const removeComment: NextApiHandler = async (req, res) => {
+  const user = await isAuth(req, res);
+  if (!user) return res.status(403).json({ error: "unauthorized request!" });
+
+  // if chief comment remove other related comments (replies) as well.
+  // if this is the reply comment remove from the chiefComments replies section
+  // then remove the actual comment
 };
 
 export default handler;
