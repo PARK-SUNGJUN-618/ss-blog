@@ -74,7 +74,8 @@ const createNewComment: NextApiHandler = async (req, res) => {
   });
 
   await comment.save();
-  res.status(201).json(comment);
+  const commentWithOwner = await comment.populate("owner");
+  res.status(201).json({ comment: formatComment(commentWithOwner, user) });
 };
 
 const removeComment: NextApiHandler = async (req, res) => {
