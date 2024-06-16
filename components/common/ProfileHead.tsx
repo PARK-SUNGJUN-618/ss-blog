@@ -27,7 +27,7 @@ const ProfileHead: FC<Props> = ({
       {/* image / name initial */}
       <div className={classNames(commonClasses, getStyle())}>
         {avatar ? (
-          <Image src={avatar} fill alt="profile" sizes="99vw" />
+          <Image src={avatar} fill alt="profile" sizes="99vw" priority={true} />
         ) : (
           nameInitial
         )}

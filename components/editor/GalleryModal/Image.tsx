@@ -22,6 +22,7 @@ const Image: FC<Props> = ({ src, alt, selected, onClick }): JSX.Element => {
         alt={alt}
         className="min-w-[132px] h-[132px] bg-secondary-light hover:scale-110
           transition object-cover"
+        priority={true}
       />
       <div className="absolute top-2 left-2">
         <CheckMark visible={selected || false} />

@@ -113,6 +113,7 @@ const GalleryModal: FC<Props> = ({
                       alt="selected"
                       fill
                       objectFit="contain"
+                      priority={true}
                     />
                   </div>
                 </>

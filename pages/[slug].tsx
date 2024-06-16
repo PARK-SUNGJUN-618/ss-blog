@@ -21,7 +21,7 @@ const SinglePost: NextPage<Props> = ({ post }) => {
       <div>
         {thumbnail ? (
           <div className="relative aspect-video">
-            <Image src={thumbnail} alt={title} layout="fill" />
+            <Image src={thumbnail} alt={title} layout="fill" priority={true} />
           </div>
         ) : null}
 

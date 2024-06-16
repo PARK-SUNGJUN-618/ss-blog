@@ -36,7 +36,13 @@ const PostCard: FC<Props> = ({
           </div>
         ) : (
           // <Image src={thumbnail} fill alt="thumbnail" />
-          <Image src={thumbnail} fill alt="thumbnail" sizes="99vw" />
+          <Image
+            src={thumbnail}
+            fill
+            alt="thumbnail"
+            sizes="99vw"
+            priority={true}
+          />
         )}
       </div>
 
