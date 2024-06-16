@@ -1,6 +1,6 @@
 <p style="text-align: center;">
   <a href="#">
-    <img src="https://user-images.githubusercontent.com/13609011/84003962-c3ecde80-a9a5-11ea-8722-8a7e9d99681f.png" alt="이미지 설명" width="250" height="250" style="max-width: 100%;">
+    <img src="https://res.cloudinary.com/ss-blog/image/upload/v1718550718/ssblog/SSLogo_zmiotm.png" alt="이미지 설명" width="250" height="250" style="max-width: 100%;">
   </a>
 </p>
 
