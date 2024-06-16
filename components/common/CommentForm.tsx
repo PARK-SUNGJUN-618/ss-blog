@@ -1,18 +1,22 @@
 import useEditorConfig from "@/hooks/useEditorConfig";
 import { EditorContent } from "@tiptap/react";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import ActionButton from "./ActionButton";
 
 interface Props {
   title?: string;
   onSubmit(content: string): void;
   busy?: boolean;
+  onClose?(): void;
+  initialState?: string;
 }
 
 const CommentForm: FC<Props> = ({
   title,
   busy = false,
+  initialState,
   onSubmit,
+  onClose,
 }): JSX.Element => {
   const { editor } = useEditorConfig({ placeholder: "Add your comment..." });
 
@@ -24,6 +28,11 @@ const CommentForm: FC<Props> = ({
       onSubmit(value);
     }
   };
+
+  useEffect(() => {
+    if (typeof initialState === "string")
+      editor?.chain().focus().setContent(initialState).run();
+  }, [editor, initialState]);
 
   return (
     <div>
@@ -38,8 +47,17 @@ const CommentForm: FC<Props> = ({
       />
 
       <div className="flex justify-end py-3">
-        <div className="inline-block">
+        <div className="flex space-x-4">
           <ActionButton busy={busy} title="Submit" onClick={handleSubmit} />
+
+          {onClose ? (
+            <button
+              onClick={onClose}
+              className="text-primary-dark dark:text-primary"
+            >
+              close
+            </button>
+          ) : null}
         </div>
       </div>
     </div>
