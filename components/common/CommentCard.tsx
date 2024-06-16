@@ -1,8 +1,12 @@
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 import ProfileIcon from "./ProfileIcon";
 import dateFormat from "dateformat";
 import parse from "html-react-parser";
-import { BsFillReplyAllFill } from "react-icons/bs";
+import {
+  BsFillReplyAllFill,
+  BsFillTrashFill,
+  BsPencilSquare,
+} from "react-icons/bs";
 
 interface CommentOwnersProfile {
   name: string;
@@ -30,11 +34,19 @@ const CommentCard: FC<Props> = ({ profile, date, content }): JSX.Element => {
         </span>
         <p className="text-primary-dark dark:text-primary">{parse(content)}</p>
 
-        <div className="flex">
-          <button className="flex items-center text-primary-dark dark:text-primary space-x-2">
+        <div className="flex space-x-4">
+          <Button>
             <BsFillReplyAllFill />
             <span>Reply</span>
-          </button>
+          </Button>
+          <Button>
+            <BsPencilSquare />
+            <span>Edit</span>
+          </Button>
+          <Button>
+            <BsFillTrashFill />
+            <span>Delete</span>
+          </Button>
         </div>
       </div>
     </div>
@@ -42,3 +54,18 @@ const CommentCard: FC<Props> = ({ profile, date, content }): JSX.Element => {
 };
 
 export default CommentCard;
+
+interface ButtonProps {
+  children: ReactNode;
+  onClick?(): void;
+}
+const Button: FC<ButtonProps> = ({ children, onClick }) => {
+  return (
+    <button
+      onClick={onClick}
+      className="flex items-center text-primary-dark dark:text-primary space-x-2"
+    >
+      {children}
+    </button>
+  );
+};
