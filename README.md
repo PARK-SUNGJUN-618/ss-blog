@@ -1,8 +1,8 @@
-<p style="text-align: center;">
+<div align="center">
   <a href="#">
     <img src="https://res.cloudinary.com/ss-blog/image/upload/v1718616465/ssblog/newSSLogo_csttef.jpg" alt="이미지 설명" width="250" height="250" style="max-width: 100%;">
   </a>
-</p>
+</div>
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
