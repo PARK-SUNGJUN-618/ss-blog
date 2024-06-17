@@ -14,6 +14,23 @@ const Comments: FC<Props> = ({ belongsTo }): JSX.Element => {
   const [comments, setComments] = useState<CommentResponse[]>();
   const userProfile = useAuth();
 
+  const insertNewReplyComments = (reply: CommentResponse) => {
+    if (!comments) return;
+    let updatedComments = [...comments];
+
+    const chiefCommentIndex = updatedComments.findIndex(
+      ({ id }) => id === reply.repliedTo
+    );
+    const { replies } = updatedComments[chiefCommentIndex];
+    if (replies) {
+      updatedComments[chiefCommentIndex].replies = [...replies, reply];
+    } else {
+      updatedComments[chiefCommentIndex].replies = [reply];
+    }
+
+    setComments([...updatedComments]);
+  };
+
   const handleNewCommentSubmit = async (content: string) => {
     const newComment = await axios
       .post("/api/comment", { content, belongsTo })
@@ -29,7 +46,7 @@ const Comments: FC<Props> = ({ belongsTo }): JSX.Element => {
   }) => {
     axios
       .post("/api/comment/add-reply", replyComment)
-      .then(({ data }) => data.comment)
+      .then(({ data }) => insertNewReplyComments(data.comment))
       .catch((err) => console.log(err));
   };
 
@@ -55,6 +72,7 @@ const Comments: FC<Props> = ({ belongsTo }): JSX.Element => {
       )}
 
       {comments?.map((comment) => {
+        const { replies } = comment;
         return (
           <div key={comment.id}>
             <CommentCard
@@ -66,6 +84,26 @@ const Comments: FC<Props> = ({ belongsTo }): JSX.Element => {
                 console.log("Update:", content);
               }}
             />
+
+            {replies?.length ? (
+              <div className="w-[93%] ml-auto space-y-3">
+                <h1 className="text-secondary-dark mb-3">Replies</h1>
+                {replies.map((reply) => {
+                  return (
+                    <CommentCard
+                      key={reply.id}
+                      comment={reply}
+                      onReplySubmit={(content) =>
+                        handleReplySubmit({ content, repliedTo: comment.id })
+                      }
+                      onUpdateSubmit={(content) => {
+                        console.log("Update:", content);
+                      }}
+                    />
+                  );
+                })}
+              </div>
+            ) : null}
           </div>
         );
       })}

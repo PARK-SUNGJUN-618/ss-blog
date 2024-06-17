@@ -52,6 +52,7 @@ const CommentCard: FC<Props> = ({
       // means we wanna reply
       onReplySubmit && onReplySubmit(comment);
     }
+    hideReplyForm();
   };
 
   return (
