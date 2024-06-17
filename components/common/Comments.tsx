@@ -23,6 +23,16 @@ const Comments: FC<Props> = ({ belongsTo }): JSX.Element => {
     else setComments([newComment]);
   };
 
+  const handleReplySubmit = (replyComment: {
+    content: string;
+    repliedTo: string;
+  }) => {
+    axios
+      .post("/api/comment/add-reply", replyComment)
+      .then(({ data }) => data.comment)
+      .catch((err) => console.log(err));
+  };
+
   useEffect(() => {
     axios(`/api/comment?belongsTo=${belongsTo}`)
       .then(({ data }) => {
@@ -44,16 +54,14 @@ const Comments: FC<Props> = ({ belongsTo }): JSX.Element => {
         </div>
       )}
 
-      {comments?.map(({ id, owner, createdAt, content }) => {
+      {comments?.map((comment) => {
         return (
-          <div key={id}>
+          <div key={comment.id}>
             <CommentCard
-              profile={owner}
-              date={createdAt}
-              content={content}
-              onReplySubmit={(content) => {
-                console.log("reply:", content);
-              }}
+              comment={comment}
+              onReplySubmit={(content) =>
+                handleReplySubmit({ content, repliedTo: comment.id })
+              }
               onUpdateSubmit={(content) => {
                 console.log("Update:", content);
               }}
