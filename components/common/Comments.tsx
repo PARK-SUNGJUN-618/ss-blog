@@ -77,6 +77,7 @@ const Comments: FC<Props> = ({ belongsTo }): JSX.Element => {
           <div key={comment.id}>
             <CommentCard
               comment={comment}
+              showControls={userProfile?.id === comment.owner.id}
               onReplySubmit={(content) =>
                 handleReplySubmit({ content, repliedTo: comment.id })
               }
@@ -93,6 +94,7 @@ const Comments: FC<Props> = ({ belongsTo }): JSX.Element => {
                     <CommentCard
                       key={reply.id}
                       comment={reply}
+                      showControls={userProfile?.id === reply.owner.id}
                       onReplySubmit={(content) =>
                         handleReplySubmit({ content, repliedTo: comment.id })
                       }
