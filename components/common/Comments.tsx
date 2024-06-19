@@ -31,6 +31,12 @@ const Comments: FC<Props> = ({ belongsTo }): JSX.Element => {
     setComments([...updatedComments]);
   };
 
+  const updateEditedComment = (newComment: CommentResponse) => {
+    // To update the we can only change the content
+    // if edited comment is chief
+    // otherwise updating comment from replies
+  };
+
   const handleNewCommentSubmit = async (content: string) => {
     const newComment = await axios
       .post("/api/comment", { content, belongsTo })
@@ -46,6 +52,13 @@ const Comments: FC<Props> = ({ belongsTo }): JSX.Element => {
   }) => {
     axios
       .post("/api/comment/add-reply", replyComment)
+      .then(({ data }) => updateEditedComment(data.comment))
+      .catch((err) => console.log(err));
+  };
+
+  const handleUpdateSubmit = (content: string, id: string) => {
+    axios
+      .patch(`/api/comment?commentId=${id}`, { content })
       .then(({ data }) => insertNewReplyComments(data.comment))
       .catch((err) => console.log(err));
   };
@@ -81,9 +94,9 @@ const Comments: FC<Props> = ({ belongsTo }): JSX.Element => {
               onReplySubmit={(content) =>
                 handleReplySubmit({ content, repliedTo: comment.id })
               }
-              onUpdateSubmit={(content) => {
-                console.log("Update:", content);
-              }}
+              onUpdateSubmit={(content) =>
+                handleUpdateSubmit(content, comment.id)
+              }
             />
 
             {replies?.length ? (
@@ -98,9 +111,9 @@ const Comments: FC<Props> = ({ belongsTo }): JSX.Element => {
                       onReplySubmit={(content) =>
                         handleReplySubmit({ content, repliedTo: comment.id })
                       }
-                      onUpdateSubmit={(content) => {
-                        console.log("Update:", content);
-                      }}
+                      onUpdateSubmit={(content) =>
+                        handleUpdateSubmit(content, reply.id)
+                      }
                     />
                   );
                 })}

@@ -130,13 +130,13 @@ const updateComment: NextApiHandler = async (req, res) => {
   const comment = await Comment.findOne({
     _id: commentId,
     owner: user.id,
-  });
+  }).populate("owner");
   if (!comment) return res.status(404).json({ error: "Comment not found!" });
 
   comment.content = req.body.content;
   await comment.save();
 
-  res.json(comment);
+  res.json({ comment: formatComment(comment) });
 };
 
 export default handler;
