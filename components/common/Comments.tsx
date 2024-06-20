@@ -32,9 +32,31 @@ const Comments: FC<Props> = ({ belongsTo }): JSX.Element => {
   };
 
   const updateEditedComment = (newComment: CommentResponse) => {
+    if (!comments) return;
+
+    let updatedComments = [...comments];
     // To update the we can only change the content
     // if edited comment is chief
+    if (newComment.chiefComment) {
+      const index = updatedComments.findIndex(({ id }) => id === newComment.id);
+      updatedComments[index].content = newComment.content;
+    }
     // otherwise updating comment from replies
+    else {
+      const chiefCommentIndex = updatedComments.findIndex(
+        ({ id }) => id === newComment.repliedTo
+      );
+
+      let newReplies = updatedComments[chiefCommentIndex].replies;
+      newReplies = newReplies?.map((comment) => {
+        if (comment.id === newComment.id) comment.content = newComment.content;
+        return comment;
+      });
+
+      updatedComments[chiefCommentIndex].replies = newReplies;
+    }
+
+    setComments([...updatedComments]);
   };
 
   const handleNewCommentSubmit = async (content: string) => {
@@ -52,14 +74,14 @@ const Comments: FC<Props> = ({ belongsTo }): JSX.Element => {
   }) => {
     axios
       .post("/api/comment/add-reply", replyComment)
-      .then(({ data }) => updateEditedComment(data.comment))
+      .then(({ data }) => insertNewReplyComments(data.comment))
       .catch((err) => console.log(err));
   };
 
   const handleUpdateSubmit = (content: string, id: string) => {
     axios
       .patch(`/api/comment?commentId=${id}`, { content })
-      .then(({ data }) => insertNewReplyComments(data.comment))
+      .then(({ data }) => updateEditedComment(data.comment))
       .catch((err) => console.log(err));
   };
 
@@ -69,7 +91,7 @@ const Comments: FC<Props> = ({ belongsTo }): JSX.Element => {
         setComments(data.comments);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [belongsTo]);
 
   return (
     <div className="py-20 space-y-4">
