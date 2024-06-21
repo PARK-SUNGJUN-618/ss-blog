@@ -83,6 +83,31 @@ const Comments: FC<Props> = ({ belongsTo }): JSX.Element => {
     setComments([...newComments]);
   };
 
+  const updateLikedComments = (likedComment: CommentResponse) => {
+    if (!comments) return;
+    let newComments = [...comments];
+
+    if (likedComment.chiefComment)
+      newComments = newComments.map((comment) => {
+        if (comment.id === likedComment.id) return likedComment;
+        return comment;
+      });
+    else {
+      const chiefCommentIndex = newComments.findIndex(
+        ({ id }) => id === likedComment.repliedTo
+      );
+      const newReplies = newComments[chiefCommentIndex].replies?.map(
+        (reply) => {
+          if (reply.id === likedComment.id) return likedComment;
+          return reply;
+        }
+      );
+      newComments[chiefCommentIndex].replies = newReplies;
+    }
+
+    setComments([...newComments]);
+  };
+
   const handleNewCommentSubmit = async (content: string) => {
     const newComment = await axios
       .post("/api/comment", { content, belongsTo })
@@ -134,6 +159,13 @@ const Comments: FC<Props> = ({ belongsTo }): JSX.Element => {
       });
   };
 
+  const handleOnLikeClick = (comment: CommentResponse) => {
+    axios
+      .post("/api/comment/update-like", { commentId: comment.id })
+      .then(({ data }) => updateLikedComments(data.comment))
+      .catch((err) => console.log(err));
+  };
+
   useEffect(() => {
     axios(`/api/comment?belongsTo=${belongsTo}`)
       .then(({ data }) => {
@@ -169,6 +201,7 @@ const Comments: FC<Props> = ({ belongsTo }): JSX.Element => {
                 handleUpdateSubmit(content, comment.id)
               }
               onDeleteClick={() => handleOnDeleteClick(comment)}
+              onLikeClick={() => handleOnLikeClick(comment)}
             />
 
             {replies?.length ? (
@@ -187,6 +220,7 @@ const Comments: FC<Props> = ({ belongsTo }): JSX.Element => {
                         handleUpdateSubmit(content, reply.id)
                       }
                       onDeleteClick={() => handleOnDeleteClick(reply)}
+                      onLikeClick={() => handleOnLikeClick(reply)}
                     />
                   );
                 })}

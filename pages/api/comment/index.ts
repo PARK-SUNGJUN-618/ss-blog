@@ -43,8 +43,8 @@ const readComments: NextApiHandler = async (req, res) => {
         path: "owner",
         select: "name avatar",
       },
-    })
-    .select("createdAt likes content repliedTo");
+    });
+  // .select("createdAt likes content repliedTo");
 
   if (!comments) return res.json({ comment: comments });
   const formattedComment: CommentResponse[] = comments.map((comment) => ({
