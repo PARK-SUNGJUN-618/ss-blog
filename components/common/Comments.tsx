@@ -64,6 +64,25 @@ const Comments: FC<Props> = ({ belongsTo }): JSX.Element => {
     setComments([...updatedComments]);
   };
 
+  const updateDeletedComments = (deletedComment: CommentResponse) => {
+    if (!comments) return;
+    let newComments = [...comments];
+
+    if (deletedComment.chiefComment)
+      newComments = newComments.filter(({ id }) => id !== deletedComment.id);
+    else {
+      const chiefCommentIndex = newComments.findIndex(
+        ({ id }) => id === deletedComment.repliedTo
+      );
+      const newReplies = newComments[chiefCommentIndex].replies?.filter(
+        ({ id }) => id !== deletedComment.id
+      );
+      newComments[chiefCommentIndex].replies = newReplies;
+    }
+
+    setComments([...newComments]);
+  };
+
   const handleNewCommentSubmit = async (content: string) => {
     const newComment = await axios
       .post("/api/comment", { content, belongsTo })
@@ -101,7 +120,18 @@ const Comments: FC<Props> = ({ belongsTo }): JSX.Element => {
   };
 
   const handleOnDeleteConfirm = () => {
-    console.log(commentToDelete);
+    if (!commentToDelete) return;
+
+    axios
+      .delete(`/api/comment?commentId=${commentToDelete.id}`)
+      .then(({ data }) => {
+        if (data.removed) updateDeletedComments(commentToDelete);
+      })
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setCommentToDelete(null);
+        setShowConfirmModal(false);
+      });
   };
 
   useEffect(() => {
