@@ -55,7 +55,7 @@ const Admin: NextPage<Props> = () => {
           })}
         </ContentWrapper>
 
-        <ContentWrapper seeAllRoute="/admin" title="Latest Comments">
+        <ContentWrapper seeAllRoute="/admin/comments" title="Latest Comments">
           {latestComments?.map((comment) => {
             return <LatestCommentListCard comment={comment} key={comment.id} />;
           })}
