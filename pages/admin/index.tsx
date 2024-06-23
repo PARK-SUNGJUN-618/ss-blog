@@ -4,7 +4,7 @@ import LatestPostListCard from "@/components/admin/LatestPostListCard";
 import LatestUserTable from "@/components/admin/LatestUserTable";
 import AdminNav from "@/components/common/nav/AdminNav";
 import AdminLayout from "@/components/layout/AdminLayout";
-import { LatestComment, PostDetail } from "@/utils/types";
+import { LatestComment, LatestUserProfile, PostDetail } from "@/utils/types";
 import axios from "axios";
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
@@ -14,6 +14,7 @@ interface Props {}
 const Admin: NextPage<Props> = () => {
   const [latestPosts, setLatestPosts] = useState<PostDetail[]>();
   const [latestComments, setLatestComments] = useState<LatestComment[]>();
+  const [latestUsers, setLatestUsers] = useState<LatestUserProfile[]>();
 
   useEffect(() => {
     // fetching latest posts
@@ -27,6 +28,13 @@ const Admin: NextPage<Props> = () => {
     axios("/api/comment/latest")
       .then(({ data }) => {
         setLatestComments(data.comments);
+      })
+      .catch((err) => console.log(err));
+
+    // fetching latest users
+    axios("/api/user")
+      .then(({ data }) => {
+        setLatestUsers(data.users);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -57,16 +65,7 @@ const Admin: NextPage<Props> = () => {
       {/* Latest Users */}
       <div className="max-w-[600px]">
         <ContentWrapper title="Latest User" seeAllRoute="/admin/users">
-          <LatestUserTable
-            users={[
-              {
-                name: "abc",
-                id: "1",
-                email: "asdf@gmail.com",
-                provider: "github",
-              },
-            ]}
-          />
+          <LatestUserTable users={latestUsers} />
         </ContentWrapper>
       </div>
     </AdminLayout>

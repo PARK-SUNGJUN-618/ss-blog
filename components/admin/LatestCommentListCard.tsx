@@ -38,9 +38,9 @@ const LatestCommentListCard: FC<Props> = ({ comment }): JSX.Element => {
         </Link>
         {/* <a href="" target="_blank" rel="noreferrer noopener"></a> */}
 
-        <p className="text-primary-dark dark:text-primary transition">
+        <div className="text-primary-dark dark:text-primary transition">
           {parse(content)}
-        </p>
+        </div>
       </div>
     </div>
   );
