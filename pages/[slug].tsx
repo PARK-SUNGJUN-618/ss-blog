@@ -11,11 +11,40 @@ import parse from "html-react-parser";
 import Image from "next/image";
 import dateFormat from "dateformat";
 import Comments from "@/components/common/Comments";
+import LikeHeart from "@/components/common/LikeHeart";
+import { useCallback, useState } from "react";
+import useAuth from "@/hooks/useAuth";
+import { signIn } from "next-auth/react";
+import axios from "axios";
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const SinglePost: NextPage<Props> = ({ post }) => {
+  const [likes, setLikes] = useState({ likedByOwner: false, count: 0 });
   const { id, title, content, tags, meta, slug, thumbnail, createdAt } = post;
+
+  const user = useAuth();
+
+  const getLikeLabel = useCallback((): string => {
+    const { likedByOwner, count } = likes;
+
+    if (likedByOwner && count === 1) return "You liked this post.";
+    if (likedByOwner) return `You and ${count - 1} other likes this post.`;
+    if (count === 0) return "Like post.";
+
+    return count + " people liked this post.";
+  }, [likes]);
+
+  const handleOnLikeClick = async () => {
+    try {
+      if (!user) return await signIn("github");
+      const { data } = await axios.post(`/api/posts/update-like?postId=${id}`);
+      setLikes({ likedByOwner: !likes.likedByOwner, count: data.newLikes });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <DefaultLayout title={title} desc={meta}>
       <div>
@@ -44,6 +73,14 @@ const SinglePost: NextPage<Props> = ({ post }) => {
 
         <div className="prose prose-lg dark:prose-invert max-w-full mx-auto">
           {parse(content)}
+        </div>
+
+        <div className="py-10">
+          <LikeHeart
+            liked={likes.likedByOwner}
+            label={getLikeLabel()}
+            onClick={handleOnLikeClick}
+          />
         </div>
 
         {/* comment form */}
