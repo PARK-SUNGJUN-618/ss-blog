@@ -55,7 +55,7 @@ const SinglePost: NextPage<Props> = ({ post }) => {
 
   return (
     <DefaultLayout title={title} desc={meta}>
-      <div>
+      <div className="lg:px-0 px-3">
         {thumbnail ? (
           <div className="relative aspect-video">
             {/* <Image src={thumbnail} alt={title} layout="fill" priority={true} /> */}

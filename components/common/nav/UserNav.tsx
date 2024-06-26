@@ -44,14 +44,14 @@ const UserNav: FC<Props> = (props): JSX.Element => {
     : defaultOptions;
 
   return (
-    <div className="flex items-center justify-between bg-primary-dark px-5 py-2">
+    <div className="flex items-center justify-between bg-primary-dark px-5 md:py-2 py-1">
       {/* Logo */}
       <Link
         href="/"
         className="flex items-center space-x-2 text-highlight-dark"
       >
-        <Logo className="bg-primary fill-highlight-light w-7 h-7 rounded-sm" />
-        <span className="text-2xl font-semibold">{APP_NAME}</span>
+        <Logo className="bg-primary fill-highlight-light md:w-7 md:h-7 w-5 h-5 rounded-sm" />
+        <span className="md:text-2xl font-semibold">{APP_NAME}</span>
       </Link>
 
       <div className="flex items-center space-x-5">
@@ -59,13 +59,19 @@ const UserNav: FC<Props> = (props): JSX.Element => {
           onClick={toggleTheme}
           className="dark:text-secondary-dark text-secondary-light"
         >
-          <HiLightBulb size={34} />
+          <HiLightBulb size={28} />
         </button>
 
         {isAuth ? (
           <DropdownOptions
             options={dropDownOptions}
-            head={<ProfileHead nameInitial="P" lightOnly />}
+            head={
+              <ProfileHead
+                nameInitial={profile?.name[0].toUpperCase()}
+                avatar={profile?.avatar}
+                lightOnly
+              />
+            }
           />
         ) : (
           <GitHubAuthButton lightOnly />

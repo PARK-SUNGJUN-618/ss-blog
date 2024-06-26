@@ -67,7 +67,7 @@ const AdminNav: FC<Props> = ({ navItems }): JSX.Element => {
       <div>
         {/* logo */}
         <Link href="/admin" className="flex items-center space-x-2 p-3 mb-10">
-          <Logo className="bg-black fill-highlight-dark dark:bg-white dark:fill-highlight-light w-5 h-5" />
+          <Logo className="bg-black fill-highlight-dark dark:bg-white dark:fill-highlight-light w-7 h-7" />
           {visible && (
             <span
               className="text-highlight-light dark:text-highlight-dark text-xl
