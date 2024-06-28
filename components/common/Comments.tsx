@@ -20,6 +20,9 @@ const Comments: FC<Props> = ({ belongsTo, fetchAll }): JSX.Element => {
   const [comments, setComments] = useState<CommentResponse[]>();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [reachedToEnd, setReachedToEnd] = useState(false);
+  const [busyCommentLike, setBusyCommentLike] = useState(false);
+  const [selectedComment, setSelectedComment] =
+    useState<CommentResponse | null>(null);
   const [commentToDelete, setCommentToDelete] =
     useState<CommentResponse | null>(null);
 
@@ -166,10 +169,20 @@ const Comments: FC<Props> = ({ belongsTo, fetchAll }): JSX.Element => {
   };
 
   const handleOnLikeClick = (comment: CommentResponse) => {
+    setBusyCommentLike(true);
+    setSelectedComment(comment);
     axios
       .post("/api/comment/update-like", { commentId: comment.id })
-      .then(({ data }) => updateLikedComments(data.comment))
-      .catch((err) => console.log(err));
+      .then(({ data }) => {
+        updateLikedComments(data.comment);
+        setBusyCommentLike(false);
+        setSelectedComment(null);
+      })
+      .catch((err) => {
+        console.log(err);
+        setBusyCommentLike(false);
+        setSelectedComment(null);
+      });
   };
 
   // fetching all comments
@@ -250,6 +263,7 @@ const Comments: FC<Props> = ({ belongsTo, fetchAll }): JSX.Element => {
               }
               onDeleteClick={() => handleOnDeleteClick(comment)}
               onLikeClick={() => handleOnLikeClick(comment)}
+              busy={selectedComment?.id === comment.id && busyCommentLike}
             />
 
             {replies?.length ? (
@@ -269,6 +283,7 @@ const Comments: FC<Props> = ({ belongsTo, fetchAll }): JSX.Element => {
                       }
                       onDeleteClick={() => handleOnDeleteClick(reply)}
                       onLikeClick={() => handleOnLikeClick(reply)}
+                      busy={selectedComment?.id === reply.id && busyCommentLike}
                     />
                   );
                 })}
