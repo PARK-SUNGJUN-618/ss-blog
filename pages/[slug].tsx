@@ -23,6 +23,7 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const SinglePost: NextPage<Props> = ({ post }) => {
   const [likes, setLikes] = useState({ likedByOwner: false, count: 0 });
+  const [liking, setLiking] = useState(false);
   const { id, title, content, tags, meta, author, slug, thumbnail, createdAt } =
     post;
 
@@ -39,6 +40,7 @@ const SinglePost: NextPage<Props> = ({ post }) => {
   }, [likes]);
 
   const handleOnLikeClick = async () => {
+    setLiking(true);
     try {
       if (!user) return await signIn("github");
       const { data } = await axios.post(`/api/posts/update-like?postId=${id}`);
@@ -46,6 +48,7 @@ const SinglePost: NextPage<Props> = ({ post }) => {
     } catch (error) {
       console.log(error);
     }
+    setLiking(false);
   };
 
   useEffect(() => {
@@ -90,7 +93,8 @@ const SinglePost: NextPage<Props> = ({ post }) => {
           <LikeHeart
             liked={likes.likedByOwner}
             label={getLikeLabel()}
-            onClick={handleOnLikeClick}
+            onClick={!liking ? handleOnLikeClick : undefined}
+            busy={liking}
           />
         </div>
 
