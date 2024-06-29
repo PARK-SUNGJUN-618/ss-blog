@@ -18,8 +18,11 @@ import { signIn } from "next-auth/react";
 import axios from "axios";
 import User from "@/models/User";
 import AuthorInfo from "@/components/common/AuthorInfo";
+import Share from "@/components/common/Share";
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
+
+const url = "https://ssblog-project.vercel.app/";
 
 const SinglePost: NextPage<Props> = ({ post }) => {
   const [likes, setLikes] = useState({ likedByOwner: false, count: 0 });
@@ -83,6 +86,10 @@ const SinglePost: NextPage<Props> = ({ post }) => {
             ))}
           </div>
           <span>{dateFormat(createdAt, "d-mmm-yyyy")}</span>
+        </div>
+
+        <div className="py-5 transition dark:bg-primary-dark bg-primary sticky top-0 z-50">
+          <Share url={url + slug} />
         </div>
 
         <div className="prose prose-lg dark:prose-invert max-w-full mx-auto">
