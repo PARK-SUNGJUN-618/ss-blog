@@ -69,7 +69,7 @@ const SinglePost: NextPage<Props> = ({ post }) => {
           </div>
         ) : null}
 
-        <h1 className="text-6xl font-semibold text-primary-dark dark:text-primary py-2">
+        <h1 className="md:text-6xl text-3xl font-semibold text-primary-dark dark:text-primary py-2">
           {title}
         </h1>
 
