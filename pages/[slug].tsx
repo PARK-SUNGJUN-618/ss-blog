@@ -19,6 +19,7 @@ import axios from "axios";
 import User from "@/models/User";
 import AuthorInfo from "@/components/common/AuthorInfo";
 import Share from "@/components/common/Share";
+import Link from "next/link";
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -118,6 +119,27 @@ const SinglePost: NextPage<Props> = ({ post }) => {
         <div className="pt-10">
           <AuthorInfo profile={JSON.parse(author)} />
         </div>
+
+        {relatedPosts.length > 0 && (
+          <div className="pt-5">
+            <h3 className="text-xl font-semibold bg-secondary-dark text-primary p-2 mb-4">
+              Related Posts:
+            </h3>
+
+            <div className="flex flex-col space-y-4">
+              {relatedPosts.map((p) => {
+                return (
+                  <Link
+                    href={p.slug}
+                    className="font-semibold text-primary-dark dark:text-primary hover:underline"
+                  >
+                    {p.title}
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {/* comment form */}
         <Comments belongsTo={id} />
