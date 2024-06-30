@@ -130,6 +130,7 @@ const SinglePost: NextPage<Props> = ({ post }) => {
               {relatedPosts.map((p) => {
                 return (
                   <Link
+                    key={p.slug}
                     href={p.slug}
                     className="font-semibold text-primary-dark dark:text-primary hover:underline"
                   >
