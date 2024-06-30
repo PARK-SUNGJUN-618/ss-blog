@@ -27,8 +27,18 @@ const url = "https://ssblog-project.vercel.app/";
 const SinglePost: NextPage<Props> = ({ post }) => {
   const [likes, setLikes] = useState({ likedByOwner: false, count: 0 });
   const [liking, setLiking] = useState(false);
-  const { id, title, content, tags, meta, author, slug, thumbnail, createdAt } =
-    post;
+  const {
+    id,
+    title,
+    content,
+    tags,
+    meta,
+    author,
+    slug,
+    thumbnail,
+    createdAt,
+    relatedPosts,
+  } = post;
 
   const user = useAuth();
 
@@ -64,7 +74,7 @@ const SinglePost: NextPage<Props> = ({ post }) => {
 
   return (
     <DefaultLayout title={title} desc={meta}>
-      <div className="lg:px-0 px-3">
+      <div className="lg:px-0 p-3">
         {thumbnail ? (
           <div className="relative aspect-video">
             {/* <Image src={thumbnail} alt={title} layout="fill" priority={true} /> */}
@@ -147,6 +157,11 @@ interface StaticPropsResponse {
     thumbnail: string;
     createdAt: string;
     author: string;
+    relatedPosts: {
+      id: string;
+      title: string;
+      slug: string;
+    }[];
   };
 }
 
@@ -158,6 +173,23 @@ export const getStaticProps: GetStaticProps<
     await dbConnect();
     const post = await Post.findOne({ slug: params?.slug }).populate("author");
     if (!post) return { notFound: true };
+
+    // fetching related posts according to tags
+    const posts = await Post.find({
+      tags: { $in: [...post.tags] },
+      _id: { $ne: post._id },
+    })
+      .sort({ createdAt: "desc" })
+      .limit(5)
+      .select("slug title");
+
+    const relatedPosts = posts.map((p) => {
+      return {
+        id: p._id.toString(),
+        title: p.title,
+        slug: p.slug,
+      };
+    });
 
     const {
       _id,
@@ -193,6 +225,7 @@ export const getStaticProps: GetStaticProps<
           thumbnail: thumbnail?.url || "",
           createdAt: createdAt.toString(),
           author: JSON.stringify(postAuthor),
+          relatedPosts,
         },
       },
       revalidate: 60,
