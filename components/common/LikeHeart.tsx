@@ -20,7 +20,7 @@ const LikeHeart: FC<Props> = ({
   return (
     <button
       type="button"
-      className="text-primary-dark dark:text-primary flex items-center space-x-2 outline-none"
+      className="text-primary-dark dark:text-primary flex items-center space-x-2 outline-none min-w-20"
       onClick={onClick}
     >
       {busy ? <BiLoader className="animate-spin" /> : likeIcon}

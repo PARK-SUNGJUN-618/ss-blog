@@ -79,7 +79,7 @@ const CommentCard: FC<Props> = ({
           {parse(content)}
         </div>
 
-        <div className="flex space-x-4">
+        <div className="flex sm:space-x-4 space-x-2 sm:text-base text-sm">
           <LikeHeart
             liked={likedByOwner}
             label={likes + " likes"}

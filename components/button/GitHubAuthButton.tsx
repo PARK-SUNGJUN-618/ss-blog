@@ -8,7 +8,7 @@ interface Props {
 }
 
 const commonClasses =
-  "flex items-center justify-center space-x-1 px-3 py-2 rounded hover:scale-[0.97] transition duration-100";
+  "flex items-center justify-center space-x-1 px-3 rounded hover:scale-[0.97] transition duration-100";
 
 export const GitHubAuthButton: FC<Props> = ({ lightOnly }): JSX.Element => {
   const getStyle = useCallback(() => {

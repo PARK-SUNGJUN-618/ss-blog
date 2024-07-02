@@ -9,7 +9,7 @@ interface Props {
 }
 
 const commonClasses =
-  "relative flex items-center justify-center rounded-full overflow-hidden md:w-8 md:h-8 w-6 h-6 select-none";
+  "relative flex items-center justify-center rounded-full overflow-hidden md:w-8 md:h-8 w-6 h-6 select-none shrink-0";
 
 const ProfileIcon: FC<Props> = ({
   avatar,
