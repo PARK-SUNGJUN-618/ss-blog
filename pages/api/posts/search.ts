@@ -1,10 +1,13 @@
 import dbConnect from "@/lib/dbConnect";
-import { formatPosts } from "@/lib/utils";
+import { formatPosts, isAdmin } from "@/lib/utils";
 import Post from "@/models/Post";
 import { NextApiHandler } from "next";
 
 const handler: NextApiHandler = async (req, res) => {
   if (req.method !== "GET") return res.status(404).send("Not found!");
+
+  const admin = await isAdmin(req, res);
+  if (!admin) return res.status(403).json({ error: "Unauthorized access!" });
 
   const title = req.query.title as string;
   if (!title.trim())
