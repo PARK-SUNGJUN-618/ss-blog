@@ -41,7 +41,7 @@ const Admin: NextPage<Props> = () => {
 
   return (
     <AdminLayout>
-      <div className="flex space-x-10">
+      <div>
         <ContentWrapper seeAllRoute="/admin/posts" title="Latest Posts">
           {latestPosts?.map(({ id, title, meta, slug }) => {
             return (
@@ -54,7 +54,8 @@ const Admin: NextPage<Props> = () => {
             );
           })}
         </ContentWrapper>
-
+      </div>
+      <div>
         <ContentWrapper seeAllRoute="/admin/comments" title="Latest Comments">
           {latestComments?.map((comment) => {
             return <LatestCommentListCard comment={comment} key={comment.id} />;
@@ -63,7 +64,8 @@ const Admin: NextPage<Props> = () => {
       </div>
 
       {/* Latest Users */}
-      <div className="max-w-[600px]">
+      {/* <div className="max-w-[600px]"> */}
+      <div>
         <ContentWrapper title="Latest User" seeAllRoute="/admin/users">
           <LatestUserTable users={latestUsers} />
         </ContentWrapper>
