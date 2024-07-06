@@ -1,4 +1,6 @@
+import InfiniteScrollPosts from "@/components/common/InfiniteScrollPosts";
 import AdminLayout from "@/components/layout/AdminLayout";
+import { filterPosts } from "@/utils/helper";
 import { PostDetail } from "@/utils/types";
 import axios from "axios";
 import { NextPage } from "next";
@@ -9,6 +11,7 @@ interface Props {}
 
 const Search: NextPage<Props> = () => {
   const [loading, setLoading] = useState(false);
+  const [notFound, setNotFound] = useState(false);
   const [results, setResults] = useState<PostDetail[]>([]);
 
   const { query } = useRouter();
@@ -22,6 +25,9 @@ const Search: NextPage<Props> = () => {
       setLoading(false);
 
       setResults(data.results);
+
+      if (!data.results.length) setNotFound(true);
+      else setNotFound(false);
     } catch (error: any) {
       console.log("error while searching posts: ", error.message);
     }
@@ -32,7 +38,30 @@ const Search: NextPage<Props> = () => {
     handleSearch();
   }, [title]);
 
-  return <AdminLayout>search</AdminLayout>;
+  return (
+    <AdminLayout>
+      {notFound ? (
+        <h1 className="text-center text-3xl font-semibold opacity-40 text-secondary-dark">
+          No Found :(
+        </h1>
+      ) : null}
+      {loading ? (
+        <h1 className="text-center text-3xl font-semibold opacity-40 text-secondary-dark">
+          Searching...
+        </h1>
+      ) : null}
+      <InfiniteScrollPosts
+        hasMore={false}
+        next={() => {}}
+        dataLength={results.length}
+        posts={results}
+        showControls
+        onPostRemoved={(post) => {
+          setResults(filterPosts(results, post));
+        }}
+      />
+    </AdminLayout>
+  );
 };
 
 export default Search;
