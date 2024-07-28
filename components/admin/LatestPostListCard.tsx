@@ -24,7 +24,7 @@ const LatestPostListCard: FC<Props> = ({
 
       <div className="flex items-center justify-end space-x-3">
         <Link
-          href={"/admin/posts/update" + slug}
+          href={"/admin/posts/update/" + slug}
           className="text-primary-dark dark:text-primary transition hover:underline"
         >
           Edit
