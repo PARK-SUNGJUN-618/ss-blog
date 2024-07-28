@@ -101,29 +101,29 @@ const Editor: FC<Props> = ({
         );
         if (selectionRange) setSelectionRange(selectionRange);
       },
-      handlePaste(view, event, slice) {
-        const text = event.clipboardData?.getData("text/plain");
-        if (text) {
-          event.preventDefault();
+      // handlePaste(view, event, slice) {
+      //   const text = event.clipboardData?.getData("text/plain");
+      //   if (text) {
+      //     event.preventDefault();
 
-          // view.dispatch(view.state.tr.insertText(text));
+      //     // view.dispatch(view.state.tr.insertText(text));
 
-          if (text.startsWith("## ")) {
-            editor
-              ?.chain()
-              .focus()
-              .setNode("heading", { level: 2 })
-              .insertContent(text.replace(/^## /, ""))
-              .run();
-          } else {
-            // For other cases, insert as plain text
-            editor?.chain().focus().insertContent(text).run();
-          }
+      //     if (text.startsWith("## ")) {
+      //       editor
+      //         ?.chain()
+      //         .focus()
+      //         .setNode("heading", { level: 2 })
+      //         .insertContent(text.replace(/^## /, ""))
+      //         .run();
+      //     } else {
+      //       // For other cases, insert as plain text
+      //       editor?.chain().focus().insertContent(text).run();
+      //     }
 
-          return true;
-        }
-        return false;
-      },
+      //     return true;
+      //   }
+      //   return false;
+      // },
       attributes: {
         class:
           "prose prose-lg focus:outline-none dark:prose-invert max-w-full mx-auto h-full",
