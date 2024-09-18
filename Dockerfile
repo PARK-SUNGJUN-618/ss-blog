@@ -17,4 +17,7 @@ EXPOSE 3000
 # 개발 모드 실행
 CMD ["npm", "run", "dev"]
 
-# docker build -t ssBlog .
+# docker build -t ssblog .
+# podman build -t ssblog .
+
+# podman run -it --env-file .env -p 3000:3000 localhost/ssblog:latest
