@@ -40,11 +40,10 @@ CMD ["npm", "run", "dev"]
 # podman stop <컨테이너 ID>  # 실행 중인 컨테이너 중지
 # podman rm <컨테이너 ID>  # 해당 컨테이너 삭제
 # podman rm -a  # 모든 컨테이너 삭제
+# podman exec -it <컨테이너 ID> /bin/sh # 컨테이너 접속
 
 # 이미지 관련 명령어
 # podman images  # 현재 보유 중인 이미지 목록 확인
 # podman rmi <이미지 ID 또는 이미지 이름>  # 이미지 삭제
 # podman rmi -a  # 모든 이미지 삭제
 
-# 컨테이너 접속
-# podman exec -it <컨테이너 ID> /bin/sh # 컨테이너 접속
